@@ -38,7 +38,7 @@ script:
   - cd ..
   - docker run --rm -it -v "$PWD":/home/user -w /home/user maj1/icdc:model-tool-perl model-desc/bin/flat-model-diff-xls.pl --working
   - cd model-desc
-  - cp diff*.xlsx ../docs/model-desc/diff-xls
+  - mv ../diff*.xlsx ../docs/model-desc/diff-xls
   - rm -f update-model.svg update-info.txt x.txt update-model.txt
   - pushd ../docs
   - cat ./README.md.content > ./README.md
