@@ -112,6 +112,7 @@ Nodes:
 
 Relationships:
   of_center:
+    Props: null
     Mul: many_to_one
     Ends:
       - Src: project
@@ -119,11 +120,13 @@ Relationships:
       - Src: study
         Dst: center
   of_project:
+    Props: null
     Mul: many_to_one
     Ends:
       - Src: study
         Dst: project
   of_participant:
+    Props: null
     Mul: many_to_one
     Ends:
       - Src: diagnosis
@@ -133,6 +136,7 @@ Relationships:
       - Src: biospecimen
         Dst: participant
   of_biospecimen:
+    Props: null
     Mul: many_to_one
     Ends:
       - Src: aliquot
@@ -140,16 +144,19 @@ Relationships:
       - Src: sop
         Dst: biospecimen
   of_cohort:
+    Props: null
     Mul: many_to_many
     Ends:
       - Src: participant
         Dst: cohort
   enrolled_at:
+    Props: null
     Mul: one_to_one
     Ends:
       - Src: participant
         Dst: center
   enrolled_for:
+    Props: null
     Mul: one_to_many
     Ends:
       - Src: participant
@@ -157,6 +164,7 @@ Relationships:
       - Src: participant
         Dst: study
   of_assay:
+    Props: null
     Mul: many_to_one
     Ends:
       - Src: sop
@@ -164,6 +172,7 @@ Relationships:
       - Src: assay_run
         Dst: assay
   of_assay_run:
+    Props: null
     Mul: one_to_one
     Ends:
       - Src: sop
@@ -171,11 +180,13 @@ Relationships:
       - Src: aliquot
         Dst: assay_run
   has_assay_result:
+    Props: null
     Mul: one_to_one
     Ends:
       - Src: assay_run
         Dst: assay_result
   has_supporting_result:
+    Props: null
     Mul: one_to_many
     Ends:
       - Src: diagnosis
@@ -274,14 +285,19 @@ PropDefinitions:
       What the readout value of an assay is measuring
     Type:
       - OD
-      - Binary
+      - Category
       - Titer
       - NormedValue
       - Concentration
   readout_value:
     Type:
-      value_type: number
-      units: ['OD','ng/ul',null]
+      - value_type: number
+        units: ['OD']
+      - ['positive','negative','indeterminate','NA']
+      - value_type: number
+        units: ['ug/ul']
+      - integer
+
   irb_approved:
     Type: boolean
   protocol:
