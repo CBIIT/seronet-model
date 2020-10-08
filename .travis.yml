@@ -36,7 +36,7 @@ script:
   - cp update-model.txt ../docs/model-desc/seronet-model.txt
   - sed -e '1,6d' update-model.svg > ../docs/model-desc/seronet-model.svg
   - cd ..
-  - docker run --rm -it -v "$PWD":/home/user -w /home/user maj1/icdc:model-tool-perl bin/flat-model-diff-xls.pl --working
+  - docker run --rm -it -v "$PWD":/home/user -w /home/user maj1/icdc:model-tool-perl model-desc/bin/flat-model-diff-xls.pl --working
   - cd model-desc
   - cp diff*.xlsx ../docs/model-desc/diff-xls
   - rm -f update-model.svg update-info.txt x.txt update-model.txt
