@@ -1,0 +1,294 @@
+Nodes:
+  center:
+    Desc: |
+      A participating Seronet institution, whether a CBC or a grant-based
+      participant
+    Props:
+      - id
+      - principal_investigator
+      - name
+      - short_name
+      - center_type
+  project:
+    Props:
+      - id
+      - irb_approved
+      - protocol
+  study:
+    Desc: |
+      A general scientific investigation, that could be standalone or part of
+      a larger project
+    Props:
+      - id
+      - irb_approved
+      - protocol
+  cohort:
+    Desc: |
+      A general grouping of participants for analysis purposes.
+    Props:
+      - id
+      - name
+      - description
+  participant:
+    Desc: |
+      A consented individual whose clinical data and biosamples are included in
+      Seronet.
+    Props:
+      - id
+  demographic:
+    Props:
+      - age
+      - gender # enum
+      - race # enum
+      - ethnicity # enum
+  diagnosis: # can have multiple
+    Props:
+      - disease
+      - date_of_diagnosis
+      - is_comorbidity # boolean
+  biospecimen:
+    Desc: |
+      Biological material, also known as a "sample". Usually obtained from a
+      participant, but could also represent positive or negative controls
+    Props:
+      - id
+      - group # enum CoV2+, negative control,...
+      - sample_type # enum
+      - initial_volume # number w/units ml
+      - date_of_collection
+      - date_of_processing
+      - date_of_swab_collection
+      - days_post_symptom_onset
+      - days_post_symptom_resolution
+      - date_last_aliquotted
+      - freeze_thaw_cycle
+  aliquot:
+    Desc: |
+      A portion of a biospecimen, which may or may not be processed, used as
+      an input reagent for assays
+    Props:
+      - id
+      - initial_volume
+      - aliquot_type # enum
+  assay:
+    Desc: |
+      A general biochemical, clinical or other procedure, performed on a
+      biospecimen or participant, that yields a recordable result. This node
+      describes the nature of the procedure, not an instantiated run of the
+      procedure.
+    Props:
+      - id
+      - assay_type # enum
+      - manufacturer # enum
+      - version
+      - antigen # enum
+      - agent # enum
+  assay_run:
+    Desc: |
+      A physical execution of an assay procedure
+    Props:
+      - id
+      - date_performed
+      - operator
+      - variances
+      - is_clia
+  assay_result:
+    Props:
+      - id
+      - type # enum
+      - readout_type # enum
+      - readout_value
+  sop: 
+    Props:
+      - id
+      - name
+      - url
+      - process_type
+      - version
+  workflow:
+    Props:
+      - id
+      - type
+
+Relationships:
+  of_center:
+    Mul: many_to_one
+    Ends:
+      - Src: project
+        Dst: center
+      - Src: study
+        Dst: center
+  of_project:
+    Mul: many_to_one
+    Ends:
+      - Src: study
+        Dst: project
+  of_participant:
+    Mul: many_to_one
+    Ends:
+      - Src: diagnosis
+        Dst: participant
+      - Src: demographic
+        Dst: participant
+      - Src: biospecimen
+        Dst: participant
+  of_biospecimen:
+    Mul: many_to_one
+    Ends:
+      - Src: aliquot
+        Dst: biospecimen
+      - Src: sop
+        Dst: biospecimen
+  of_cohort:
+    Mul: many_to_many
+    Ends:
+      - Src: participant
+        Dst: cohort
+  enrolled_at:
+    Mul: one_to_one
+    Ends:
+      - Src: participant
+        Dst: center
+  enrolled_for:
+    Mul: one_to_many
+    Ends:
+      - Src: participant
+        Dst: project
+      - Src: participant
+        Dst: study
+  of_assay:
+    Mul: many_to_one
+    Ends:
+      - Src: sop
+        Dst: assay
+      - Src: assay_run
+        Dst: assay
+  of_assay_run:
+    Mul: one_to_one
+    Ends:
+      - Src: sop
+        Dst: assay_run
+      - Src: aliquot
+        Dst: assay_run
+  has_assay_result:
+    Mul: one_to_one
+    Ends:
+      - Src: assay_run
+        Dst: assay_result
+  has_supporting_result:
+    Mul: one_to_many
+    Ends:
+      - Src: diagnosis
+        Dst: assay_result
+PropDefinitions:
+  id:
+    Type: string
+    Req: true
+  antigen:
+    Type:
+      - IgM
+      - IgG
+      - SARS_COV_2_spike_protein
+      - agent_specific
+  infectious_agent:
+    Type:
+      - SARS_COV_2
+      - EBV
+      - CMV
+      - HIV
+      - HBV
+      - HCV
+      - HKU1
+      - NL63
+      - OC43
+      - 229E
+  process_type:
+    Type:
+      - assay
+      - biospecimen_processing
+      - biospecimen_acquisition
+  assay_type:
+    Type:
+      - ELISA
+      - respiratory_panel
+      - PCR
+      - rapid_test
+      - lateral_flow_test
+  sample_type:
+    Type:
+      - serum
+      - PBMC
+      - edta_plasma
+  aliquat_type:
+    Type:
+      - RNA
+      - DNA
+      - serum
+      - plasma
+  manufacturer:
+    Type:
+      - freds_custom_assays
+  center_type:
+    Type:
+      - CBC
+      - grantee
+  operator:
+    Desc: |
+      an identifier (non-PII) representing a individual who performed
+      an assay run
+    Type: string
+  variances:
+    Desc: |
+      free text description of any variances from SOP encountered in an
+      assay run
+    Type: string
+  date_performed:
+    Type: datetime
+  date_of_collection:
+    Type: datetime
+  date_of_processing:
+    Type: datetime
+  date_of_swab_collection:
+    Type: datetime
+  date_last_aliquotted:
+    Type: datetime
+  days_post_symptom_onset:
+    Type:
+      value_type: integer
+      units: ['days']
+  days_post_symptom_resolution:
+    Type:
+      value_type: integer
+      units: ['days']
+  group: 
+    Type:
+      - ...
+  initial_volume:
+    Type:
+      value_type: number
+      units: ['ml','ul']
+  freeze_thaw_cycle:
+    Type: integer
+  readout_type:
+    Desc: |
+      What the readout value of an assay is measuring
+    Type:
+      - OD
+      - Binary
+      - Titer
+      - NormedValue
+      - Concentration
+  readout_value:
+    Type:
+      value_type: number
+      units: ['OD','ng/ul',null]
+  irb_approved:
+    Type: boolean
+  protocol:
+    Desc: |
+      URL of protocol or other study documentation intended for IRB review 
+    Type: url
+    
+  
+    
+  
