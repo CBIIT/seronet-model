@@ -1,1 +1,106 @@
- 
+node	property	value_or_TYPE
+aliquot	aliquot_type	NA
+aliquot	id	STRING
+aliquot	initial_volume	NUMBER (ml)
+aliquot	initial_volume	NUMBER (ul)
+assay	agent	NA
+assay	antigen	IgG
+assay	antigen	IgM
+assay	antigen	SARS_COV_2_spike_protein
+assay	antigen	agent_specific
+assay	assay_type	ELISA
+assay	assay_type	PCR
+assay	assay_type	lateral_flow_test
+assay	assay_type	rapid_test
+assay	assay_type	respiratory_panel
+assay	id	STRING
+assay	manufacturer	freds_custom_assays
+assay	version	NA
+assay_result	id	STRING
+assay_result	readout_type	Category
+assay_result	readout_type	Concentration
+assay_result	readout_type	NormedValue
+assay_result	readout_type	OD
+assay_result	readout_type	Titer
+assay_result	readout_value	ARRAY(0x7f971f911038)
+assay_result	readout_value	HASH(0x7f971f9112a8)
+assay_result	readout_value	HASH(0x7f971f9119e0)
+assay_result	readout_value	integer
+assay_result	type	NA
+assay_run	date_performed	DATETIME
+assay_run	id	STRING
+assay_run	is_clia	NA
+assay_run	operator	STRING
+assay_run	variances	STRING
+biospecimen	date_last_aliquotted	DATETIME
+biospecimen	date_of_collection	DATETIME
+biospecimen	date_of_processing	DATETIME
+biospecimen	date_of_swab_collection	DATETIME
+biospecimen	days_post_symptom_onset	NUMBER (days)
+biospecimen	days_post_symptom_resolution	NUMBER (days)
+biospecimen	freeze_thaw_cycle	INTEGER
+biospecimen	group	...
+biospecimen	id	STRING
+biospecimen	initial_volume	NUMBER (ml)
+biospecimen	initial_volume	NUMBER (ul)
+biospecimen	sample_type	PBMC
+biospecimen	sample_type	edta_plasma
+biospecimen	sample_type	serum
+center	center_type	CBC
+center	center_type	grantee
+center	id	STRING
+center	name	NA
+center	principal_investigator	NA
+center	short_name	NA
+cohort	description	NA
+cohort	id	STRING
+cohort	name	NA
+demographic	age	NA
+demographic	ethnicity	NA
+demographic	gender	NA
+demographic	race	NA
+diagnosis	date_of_diagnosis	NA
+diagnosis	disease	NA
+diagnosis	is_comorbidity	NA
+participant	id	STRING
+project	id	STRING
+project	irb_approved	BOOLEAN
+project	protocol	URL
+sop	id	STRING
+sop	name	NA
+sop	process_type	assay
+sop	process_type	biospecimen_acquisition
+sop	process_type	biospecimen_processing
+sop	url	NA
+sop	version	NA
+study	id	STRING
+study	irb_approved	BOOLEAN
+study	protocol	URL
+workflow	id	STRING
+workflow	type	NA
+
+relationship	source_node	destination_node	property	value_or_TYPE
+enrolled_at	participant	center	NA	NA
+enrolled_for	participant	study	NA	NA
+enrolled_for	participant	project	NA	NA
+has_assay_result	assay_run	assay_result	NA	NA
+has_supporting_result	diagnosis	assay_result	NA	NA
+of_assay	sop	assay	NA	NA
+of_assay	assay_run	assay	NA	NA
+of_assay_run	aliquot	assay_run	NA	NA
+of_assay_run	sop	assay_run	NA	NA
+of_biospecimen	sop	biospecimen	NA	NA
+of_biospecimen	aliquot	biospecimen	NA	NA
+of_center	study	center	NA	NA
+of_center	project	center	NA	NA
+of_cohort	participant	cohort	NA	NA
+of_participant	diagnosis	participant	NA	NA
+of_participant	biospecimen	participant	NA	NA
+of_participant	demographic	participant	NA	NA
+of_project	study	project	NA	NA
+
+property	description
+operator	an identifier (non-PII) representing a individual who performed an assay run 
+protocol	URL of protocol or other study documentation intended for IRB review  
+readout_type	What the readout value of an assay is measuring 
+variances	free text description of any variances from SOP encountered in an assay run 
