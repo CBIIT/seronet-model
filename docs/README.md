@@ -1,3 +1,23 @@
+<link rel='stylesheet' href="assets/style.css">
+<link rel='stylesheet' href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"  src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+<script type="text/javascript" src="assets/actions.js"></script>
+
+# SeroNet Data Model (SSNCC)
+[View model on GitHub Pages](https://cbiit.github.io/seronet-model)
+
+
+Zoom to Node: <select id="node_select">
+  <option value="">Zoom to Node</option>
+</select>
+<div id="model"></div>
+
+<p>
+<a href="./model-desc/seronet-model.svg">SVG file (in view above)</a>
+<p>
+<a href="./model-desc">Additional model files</a>
+<div id='graph' style='display:off;'>
 <svg width="1374pt" height="1028pt"
  viewBox="0.00 0.00 1373.50 1028.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1024)">
@@ -387,3 +407,4 @@
 </g>
 </g>
 </svg>
+</div>

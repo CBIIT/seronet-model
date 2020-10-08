@@ -1,3 +1,5 @@
+repo https://github.com/CBIIT/seronet-model.git
+commit ffeb1dd
 node	property	value_or_TYPE
 aliquot	aliquot_type	NA
 aliquot	id	STRING
@@ -22,9 +24,9 @@ assay_result	readout_type	Concentration
 assay_result	readout_type	NormedValue
 assay_result	readout_type	OD
 assay_result	readout_type	Titer
-assay_result	readout_value	ARRAY(0x7f971f911038)
-assay_result	readout_value	HASH(0x7f971f9112a8)
-assay_result	readout_value	HASH(0x7f971f9119e0)
+assay_result	readout_value	ARRAY(0x564f6a9fbf00)
+assay_result	readout_value	HASH(0x564f6a9fba08)
+assay_result	readout_value	HASH(0x564f6a9fc0e0)
 assay_result	readout_value	integer
 assay_result	type	NA
 assay_run	date_performed	DATETIME
@@ -81,21 +83,21 @@ workflow	type	NA
 
 relationship	source_node	destination_node	property	value_or_TYPE
 enrolled_at	participant	center	NA	NA
-enrolled_for	participant	study	NA	NA
 enrolled_for	participant	project	NA	NA
+enrolled_for	participant	study	NA	NA
 has_assay_result	assay_run	assay_result	NA	NA
 has_supporting_result	diagnosis	assay_result	NA	NA
 of_assay	sop	assay	NA	NA
 of_assay	assay_run	assay	NA	NA
 of_assay_run	aliquot	assay_run	NA	NA
 of_assay_run	sop	assay_run	NA	NA
-of_biospecimen	sop	biospecimen	NA	NA
 of_biospecimen	aliquot	biospecimen	NA	NA
+of_biospecimen	sop	biospecimen	NA	NA
 of_center	study	center	NA	NA
 of_center	project	center	NA	NA
 of_cohort	participant	cohort	NA	NA
-of_participant	diagnosis	participant	NA	NA
 of_participant	biospecimen	participant	NA	NA
+of_participant	diagnosis	participant	NA	NA
 of_participant	demographic	participant	NA	NA
 of_project	study	project	NA	NA
 
