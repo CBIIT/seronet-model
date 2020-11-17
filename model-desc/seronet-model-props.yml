@@ -1,0 +1,378 @@
+# some enum lists include the value 'other' -- this is just placeholder
+# to remind us we need a way to capture new values from Other fields.
+
+PropDefinitions:
+  abo_type:
+    Type: string
+  age:
+    Type:
+      value_type: number
+      units: [ 'yr' ]
+    Req: true
+  aliquot_type:
+    Type:
+      - RNA
+      - DNA
+      - serum
+      - plasma
+  antibody:
+    Type:
+      - IgM
+      - IgG
+      - IgA
+      - Total_IgM_IgA
+    Req: true
+  antigen:
+    Type:
+      - nucleocapsid
+      - spike
+      - membrane
+      - envelope
+      - other # capture?
+    Req: true
+  assay_target:
+    Type:
+      - SARS_COV_2
+      - EBV
+      - CMV
+      - HIV
+      - HBV
+      - HCV
+      - HKU1
+      - NL63
+      - OC43
+      - 229E
+      - seasonal_COV
+      - influenza
+      - other
+    Req: true
+  assay_type:
+    Type:
+      - ELISA
+      - respiratory_panel
+      - PCR
+      - RT_PCR
+      - virus_neutralization
+      - lateral_flow
+      - other
+  biospecimen_group:
+    Type:
+      - cov2_postive_sample
+      - cov2_negative_sample
+      - cov2_serosurveillance
+  biospecimen_type:
+    Type:
+      - serum
+      - edta_plasma
+      - pbmc
+      - saliva
+      - nasal_swab
+  center_type:
+    Type:
+      - CBC
+      - grantee
+  clinical_findings_and_procedures:
+    Desc: |
+      List-valued. List of Covid-associated patient findings and procedures, drawn from acceptable value list
+    Type:
+      value_type: list
+      item_type:
+        - developed_pneumonia
+        - ADRS
+        - abnormal_chest_xray
+        - abnormal_EKG
+        - hospitalised
+        - admitted_to_ICU
+        - ventilation_or_intubation
+        - received_ECMO
+        - another_diagnosis_or_etiology # meaning, different from Covid?
+  cutoff:
+    Type: number
+  date_last_aliquotted:
+    Type: datetime
+  date_of_assessment:
+    Type: datetime
+  date_of_diagnosis:
+    Type: datetime
+  date_of_symptom_onset:
+    Type: datetime
+  date_of_symptom_resolution:
+    Type: datetime
+  date_of_serology_test:
+    Type: datetime
+  date_of_vaccination:
+    Type: datetime
+  datetime_of_collection:
+    Type: datetime
+    Req: true
+  datetime_of_processing:
+    Type: datetime
+    Req: true
+  date_performed:
+    Type: datetime
+  datetime_performed:
+    Type: datetime
+  days_post_symptom_onset:
+    Type:
+      value_type: integer
+      units: [ 'days' ]
+  days_post_symptom_resolution:
+    Type:
+      value_type: integer
+      units: [ 'days' ]
+  description:
+    Desc: |
+      Generic freetext description field
+    Type: string
+  disease:
+    Desc: |
+      Comorbidity with covid
+    Type:
+      # could be a union type with ICD-10 code or enumerated value allowed.
+      - diabetes_mellitus
+      - hypertension
+      - severe_obesity
+      - cardiovascular_disease
+      - chronic_renal_disease
+      - chronic_liver_disease
+      - chronic_lung_disease
+      - immunosuppressive_condition
+      - autoimmune_condition
+      - inflammatory_disease
+      - other
+  ethnicity:
+    Type:
+      - hispanic_or_latino
+      - not_hispanic_or_latino
+      - unknown
+      - not_reported
+  freeze_thaw_cycle:
+    Type: integer
+  gender:
+    Type:
+      - Male
+      - Female
+      - Other
+      - Not Reported
+      - Unknown
+    Req: true
+  has_current_infection:
+    Desc: |
+      Indicator for current infection with associated serology node infectious_agent as of date_of_serology_test
+    Type:
+      - "yes"
+      - "no"
+      - unknown
+  id:
+    Type: string
+    Req: true
+  infectious_agent:
+    Desc: |
+      Viral infectious agent for which serology has been/may be performed
+    Type:
+      - CMV
+      - EBV
+      - HIV
+      - seasonal_COV
+      - seasonal_influenza
+      - HBV
+      - SARS_COV_2
+      - other
+  initial_concentration_pbmc:
+    Type:
+      value_type: number
+      units: ['cells/ul']
+  initial_volume:
+    Type:
+      value_type: number
+      units: [ 'ml', 'ul' ]
+
+  irb_approved:
+    Type: boolean
+  is_clia:
+    Desc: |
+      Indicator for whether the assay run was performed in a CLIA-certified lab
+    Type: boolean
+  is_symptomatic:
+    Desc: |
+      Whether patient was symptomatic at visit time
+    Type:
+      - "yes"
+      - "no"
+      - unknown
+      - NA
+  manufacturer:
+    Type: string
+  metrics_source:
+    Type:
+      - manufacturer
+      - submitter
+      - serology_lab
+  name:
+    Type: string
+  number_live_pbmc:
+    Type:
+      value_type: integer
+      units: ['per ul']
+  number_total_pbmc:
+    Type:
+      value_type: integer
+      units: ['per ul']
+  percent_viable_pbmc:
+    Type:
+      value_type: number
+  operator:
+    Desc: |
+      an identifier (non-PII) representing a individual who performed
+      an assay run
+    Type: string
+  output_type:
+    Desc: |
+      What the readout value of an assay is measuring
+    Type:
+      - OD
+      - Category
+      - Titer
+      - NormedValue
+      - Concentration
+      - other
+    Req: true
+  output_value:
+    Type:
+      - value_type: number
+        units: [ 'OD' ]
+      - [ 'positive', 'negative', 'indeterminate', 'NA' ]
+      - value_type: number
+        units: [ 'ug/ul' ]
+      - integer
+    Req: true
+  principal_investigator:
+    Type: string
+  process_type:
+    Type:
+      - assay
+      - biospecimen_processing
+      - biospecimen_acquisition
+  protocol:
+    Desc: |
+      URL of protocol or other study documentation intended for IRB review 
+    Type: url
+  race:
+    Type:
+      - White
+      - American Indian or Alaskan Native
+      - Black or African American
+      - Asian
+      - Native Hawaiian or Other Pacific Islander
+      - Other
+      - Not Reported
+      - Unknown
+    Req: true
+  rh_type:
+    Type: string
+  rt_serum_clotting:
+    Type:
+      value_type: number
+      units: ['min']
+  sample_type:
+    Type:
+      - serum
+      - pbmc
+      - edta_plasma
+      - saliva
+      - intranasal_swab
+  sensitivity:
+    Type: number
+    Req: true
+  serology_result:
+    Desc: |
+      Result of serology test for associated serology node infectious_agent
+    Type:
+      - positive
+      - negative
+      - indeterminate
+      - unknown
+  short_name:
+    Type: string
+  specificity:
+    Type: number
+    Req: true
+  symptoms_absent:
+    Desc: |
+      List-valued property - list is of symptoms positively absent in patient
+    Type:
+      value_type: list
+      item_type:
+        - fever
+        - temperature_gt_100_4_f
+        - chills
+        - rigors
+        - muscle_ache
+        - runny_nose
+        - sore_throat
+        - new_olfactory_and_taste_disorder
+        - headache
+        - fatigue
+        - cough
+        - wheezing
+        - shortness_of_breath
+        - difficulty_breathing
+        - chest_pain
+        - nausea_or_vomiting
+        - abdominal_pain
+        - diarrhea
+        - other
+  symptoms_present:
+    Desc: |
+      List-valued property - list is of symptoms positively present in patient
+    Type:
+      value_type: list
+      item_type:
+        - fever
+        - temperature_gt_100_4_f
+        - chills
+        - rigors
+        - muscle_ache
+        - runny_nose
+        - sore_throat
+        - new_olfactory_and_taste_disorder
+        - headache
+        - fatigue
+        - cough
+        - wheezing
+        - shortness_of_breath
+        - difficulty_breathing
+        - chest_pain
+        - nausea_or_vomiting
+        - abdominal_pain
+        - diarrhea
+        - other
+  symptoms_resolved:
+    Desc: |
+      Whether patient symptoms have resolved at visit time
+    Type:
+      - "yes"
+      - "no"
+      - unknown
+      - NA
+  url:
+    Type: url
+  variances:
+    Desc: |
+      free text description of any variances from SOP encountered in an
+      assay run
+    Type: string
+  version:
+    Desc: Version string for an associated sop, protocol, or assay
+    Type: string
+  vital_status:
+    Type:
+      - Alive
+      - Dead
+      - Unknown
+    Req: true
+  workflow_type:
+    Type: string # should be enum
+  year_of_diagnosis:
+    Type:
+      pattern: "^20[0-9][0-9]$"

@@ -52,10 +52,10 @@ Nodes:
       - initial_volume # number w/units ml
       - datetime_of_collection
       - datetime_of_processing
-      - initial_pbmc_concentration # into a pbmc_biospecimen node?
+      - initial_concentration_pbmc # into a pbmc_biospecimen node?
       - number_live_pbmc
       - number_total_pbmc
-      - percent_pbmc_viable
+      - percent_viable_pbmc
       - rt_serum_clotting # into a serum_biospecimen node?
       - days_post_symptom_onset
       - days_post_symptom_resolution
@@ -145,7 +145,7 @@ Nodes:
   workflow:
     Props:
       - id
-      - type
+      - workflow_type
 
 Relationships:
   enrolled_at:
@@ -172,7 +172,7 @@ Relationships:
     Props: null
     Mul: one_to_many
     Ends:
-      - Src: diagnosis
+      - Src: cov2_diagnosis
         Dst: assay_result
   of_assay:
     Props: null
@@ -216,7 +216,7 @@ Relationships:
     Props: null
     Mul: many_to_one
     Ends:
-      - Src: diagnosis
+      - Src: cov2_diagnosis
         Dst: participant
       - Src: demographic
         Dst: participant
