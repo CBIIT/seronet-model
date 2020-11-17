@@ -1,67 +1,4 @@
 Nodes:
-  center:
-    Desc: |
-      A participating Seronet institution, whether a CBC or a grant-based
-      participant
-    Props:
-      - id
-      - principal_investigator
-      - name
-      - short_name
-      - center_type
-  project:
-    Props:
-      - id
-      - irb_approved
-      - protocol
-  study:
-    Desc: |
-      A general scientific investigation, that could be standalone or part of
-      a larger project
-    Props:
-      - id
-      - irb_approved
-      - protocol
-  cohort:
-    Desc: |
-      A general grouping of participants for analysis purposes.
-    Props:
-      - id
-      - name
-      - description
-  participant:
-    Desc: |
-      A consented individual whose clinical data and biosamples are included in
-      Seronet.
-    Props:
-      - id
-  demographic:
-    Props:
-      - age
-      - gender # enum
-      - race # enum
-      - ethnicity # enum
-  diagnosis: # can have multiple
-    Props:
-      - disease
-      - date_of_diagnosis
-      - is_comorbidity # boolean
-  biospecimen:
-    Desc: |
-      Biological material, also known as a "sample". Usually obtained from a
-      participant, but could also represent positive or negative controls
-    Props:
-      - id
-      - group # enum CoV2+, negative control,...
-      - sample_type # enum
-      - initial_volume # number w/units ml
-      - date_of_collection
-      - date_of_processing
-      - date_of_swab_collection
-      - days_post_symptom_onset
-      - days_post_symptom_resolution
-      - date_last_aliquotted
-      - freeze_thaw_cycle
   aliquot:
     Desc: |
       A portion of a biospecimen, which may or may not be processed, used as
@@ -81,8 +18,20 @@ Nodes:
       - assay_type # enum
       - manufacturer # enum
       - version
-      - antigen # enum
-      - agent # enum
+      - assay_target # enum
+      - antigen #enum
+      - antibody # enum
+  assay_metrics:
+    Props:
+      - sensitivity
+      - specificity
+      - metrics_source
+  assay_result:
+    Props:
+      - id
+      - output_type # enum
+      - output_value
+      - cutoff
   assay_run:
     Desc: |
       A physical execution of an assay procedure
@@ -92,63 +41,113 @@ Nodes:
       - operator
       - variances
       - is_clia
-  assay_result:
+  biospecimen:
+    Desc: |
+      Biological material, also known as a "sample". Usually obtained from a
+      participant, but could also represent positive or negative controls
     Props:
       - id
-      - type # enum
-      - readout_type # enum
-      - readout_value
-  sop: 
+      - biospecimen_group # enum
+      - biospecimen_type # enum
+      - initial_volume # number w/units ml
+      - datetime_of_collection
+      - datetime_of_processing
+      - initial_pbmc_concentration # into a pbmc_biospecimen node?
+      - number_live_pbmc
+      - number_total_pbmc
+      - percent_pbmc_viable
+      - rt_serum_clotting # into a serum_biospecimen node?
+      - days_post_symptom_onset
+      - days_post_symptom_resolution
+      - date_last_aliquotted
+      - freeze_thaw_cycle
+  center:
+    Desc: |
+      A participating Seronet institution, whether a CBC or a grant-based
+      participant
+    Props:
+      - id
+      - principal_investigator
+      - name
+      - short_name
+      - center_type
+  clinical_course:
+    Props:
+      - clinical_findings_and_procedures
+      - date_of_assessment
+  cohort:
+    Desc: |
+      A general grouping of participants for analysis purposes.
+    Props:
+      - id
+      - name
+      - description
+  comorbidity:
+    # Envision multiple comorbidity nodes connected to case node
+    Props:
+      - disease
+      - date_of_diagnosis
+  cov2_diagnosis: # COV2 
+    Props:
+      # need to determine which if any of these is the "index date".
+      # the rest will need to be "days_to_*", i.e. relative dates
+      - year_of_diagnosis
+      - date_of_diagnosis
+      - date_of_symptom_onset
+      - date_of_symptom_resolution
+  demographic:
+    Props:
+      - age
+      - gender
+      - race
+      - ethnicity
+      - vital_status
+      - abo_type
+      - rh_type
+  participant:
+    Desc: |
+      A consented individual whose clinical data and biosamples are included in
+      Seronet.
+    Props:
+      - id
+  project:
+    Props:
+      - id
+      - irb_approved
+      - protocol
+  serology:
+    # Envision multiple serology nodes connected to case node
+    Props:
+      - infectious_agent
+      - serology_result
+      - date_of_serology_test
+      - has_current_infection
+  sop:
     Props:
       - id
       - name
       - url
       - process_type
       - version
+  study:
+    Desc: |
+      A general scientific investigation, that could be standalone or part of
+      a larger project
+    Props:
+      - id
+      - irb_approved
+      - protocol
+  vaccination:
+    # Envision multiple vaccination nodes connected to case node
+    Props:
+      - infectious_agent
+      - date_of_vaccination
   workflow:
     Props:
       - id
       - type
 
 Relationships:
-  of_center:
-    Props: null
-    Mul: many_to_one
-    Ends:
-      - Src: project
-        Dst: center
-      - Src: study
-        Dst: center
-  of_project:
-    Props: null
-    Mul: many_to_one
-    Ends:
-      - Src: study
-        Dst: project
-  of_participant:
-    Props: null
-    Mul: many_to_one
-    Ends:
-      - Src: diagnosis
-        Dst: participant
-      - Src: demographic
-        Dst: participant
-      - Src: biospecimen
-        Dst: participant
-  of_biospecimen:
-    Props: null
-    Mul: many_to_one
-    Ends:
-      - Src: aliquot
-        Dst: biospecimen
-      - Src: sop
-        Dst: biospecimen
-  of_cohort:
-    Props: null
-    Mul: many_to_many
-    Ends:
-      - Src: participant
-        Dst: cohort
   enrolled_at:
     Props: null
     Mul: one_to_one
@@ -163,6 +162,18 @@ Relationships:
         Dst: project
       - Src: participant
         Dst: study
+  has_assay_result:
+    Props: null
+    Mul: one_to_one
+    Ends:
+      - Src: assay_run
+        Dst: assay_result
+  has_supporting_result:
+    Props: null
+    Mul: one_to_many
+    Ends:
+      - Src: diagnosis
+        Dst: assay_result
   of_assay:
     Props: null
     Mul: many_to_one
@@ -179,132 +190,47 @@ Relationships:
         Dst: assay_run
       - Src: aliquot
         Dst: assay_run
-  has_assay_result:
+  of_biospecimen:
     Props: null
-    Mul: one_to_one
+    Mul: many_to_one
     Ends:
-      - Src: assay_run
-        Dst: assay_result
-  has_supporting_result:
+      - Src: aliquot
+        Dst: biospecimen
+      - Src: sop
+        Dst: biospecimen
+  of_center:
     Props: null
-    Mul: one_to_many
+    Mul: many_to_one
+    Ends:
+      - Src: project
+        Dst: center
+      - Src: study
+        Dst: center
+  of_cohort:
+    Props: null
+    Mul: many_to_many
+    Ends:
+      - Src: participant
+        Dst: cohort
+  of_participant:
+    Props: null
+    Mul: many_to_one
     Ends:
       - Src: diagnosis
-        Dst: assay_result
-PropDefinitions:
-  id:
-    Type: string
-    Req: true
-  antigen:
-    Type:
-      - IgM
-      - IgG
-      - SARS_COV_2_spike_protein
-      - agent_specific
-  infectious_agent:
-    Type:
-      - SARS_COV_2
-      - EBV
-      - CMV
-      - HIV
-      - HBV
-      - HCV
-      - HKU1
-      - NL63
-      - OC43
-      - 229E
-  process_type:
-    Type:
-      - assay
-      - biospecimen_processing
-      - biospecimen_acquisition
-  assay_type:
-    Type:
-      - ELISA
-      - respiratory_panel
-      - PCR
-      - rapid_test
-      - lateral_flow_test
-  sample_type:
-    Type:
-      - serum
-      - PBMC
-      - edta_plasma
-  aliquat_type:
-    Type:
-      - RNA
-      - DNA
-      - serum
-      - plasma
-  manufacturer:
-    Type:
-      - freds_custom_assays
-  center_type:
-    Type:
-      - CBC
-      - grantee
-  operator:
-    Desc: |
-      an identifier (non-PII) representing a individual who performed
-      an assay run
-    Type: string
-  variances:
-    Desc: |
-      free text description of any variances from SOP encountered in an
-      assay run
-    Type: string
-  date_performed:
-    Type: datetime
-  date_of_collection:
-    Type: datetime
-  date_of_processing:
-    Type: datetime
-  date_of_swab_collection:
-    Type: datetime
-  date_last_aliquotted:
-    Type: datetime
-  days_post_symptom_onset:
-    Type:
-      value_type: integer
-      units: ['days']
-  days_post_symptom_resolution:
-    Type:
-      value_type: integer
-      units: ['days']
-  group: 
-    Type:
-      - ...
-  initial_volume:
-    Type:
-      value_type: number
-      units: ['ml','ul']
-  freeze_thaw_cycle:
-    Type: integer
-  readout_type:
-    Desc: |
-      What the readout value of an assay is measuring
-    Type:
-      - OD
-      - Category
-      - Titer
-      - NormedValue
-      - Concentration
-  readout_value:
-    Type:
-      - value_type: number
-        units: ['OD']
-      - ['positive','negative','indeterminate','NA']
-      - value_type: number
-        units: ['ug/ul']
-      - integer
-
-  irb_approved:
-    Type: boolean
-  protocol:
-    Desc: |
-      URL of protocol or other study documentation intended for IRB review 
-    Type: url
-    
-  
-    
-  
+        Dst: participant
+      - Src: demographic
+        Dst: participant
+      - Src: biospecimen
+        Dst: participant
+      - Src: serology
+        Dst: participant
+      - Src: comorbidity
+        Dst: participant
+      - Src: vaccination
+        Dst: participant
+  of_project:
+    Props: null
+    Mul: many_to_one
+    Ends:
+      - Src: study
+        Dst: project
