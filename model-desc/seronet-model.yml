@@ -182,6 +182,8 @@ Relationships:
         Dst: assay
       - Src: assay_run
         Dst: assay
+      - Src: assay_metrics
+        Dst: assay
   of_assay_run:
     Props: null
     Mul: one_to_one
