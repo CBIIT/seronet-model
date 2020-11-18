@@ -1,5 +1,5 @@
 repo https://github.com/CBIIT/seronet-model.git
-commit 322e311
+commit 303e124
 node	property	value_or_TYPE
 aliquot	aliquot_type	NA
 aliquot	id	NA
@@ -88,8 +88,9 @@ enrolled_for	participant	study	NA	NA
 enrolled_for	participant	project	NA	NA
 has_assay_result	assay_run	assay_result	NA	NA
 has_supporting_result	cov2_diagnosis	assay_result	NA	NA
-of_assay	assay_run	assay	NA	NA
 of_assay	sop	assay	NA	NA
+of_assay	assay_run	assay	NA	NA
+of_assay	assay_metrics	assay	NA	NA
 of_assay_run	sop	assay_run	NA	NA
 of_assay_run	aliquot	assay_run	NA	NA
 of_biospecimen	sop	biospecimen	NA	NA
@@ -97,12 +98,12 @@ of_biospecimen	aliquot	biospecimen	NA	NA
 of_center	project	center	NA	NA
 of_center	study	center	NA	NA
 of_cohort	participant	cohort	NA	NA
-of_participant	biospecimen	participant	NA	NA
-of_participant	comorbidity	participant	NA	NA
+of_participant	cov2_diagnosis	participant	NA	NA
 of_participant	vaccination	participant	NA	NA
+of_participant	comorbidity	participant	NA	NA
+of_participant	biospecimen	participant	NA	NA
 of_participant	demographic	participant	NA	NA
 of_participant	serology	participant	NA	NA
-of_participant	cov2_diagnosis	participant	NA	NA
 of_project	study	project	NA	NA
 
 property	description
